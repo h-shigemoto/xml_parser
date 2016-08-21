@@ -30,6 +30,14 @@ str = XmlParser::Text.multi_normalize(["a > b; < c", "a > b; < c"])
 # unnormalize
 str = XmlParser::Text.unnormalize("a &gt; b; &lt; c")
 str = XmlParser::Text.multi_unnormalize(["a &gt; b; &lt; c", "a &gt; b; &lt; c"])
+
+# read xml
+doc = XmlParser::Document.new("<sample><elm>sample xml</elm></sample>")
+# you can read from file.
+# doc = XmlParser::Document.from_file("/var/sample.xml")
+match_values = doc.xpath_map("/sample/test/@name") { |elm|
+  puts elm
+}
 ```
 
 ## Development
