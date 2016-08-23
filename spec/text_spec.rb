@@ -27,12 +27,34 @@ describe XmlParser::Text do
     }
   end
 
+  it 'multi normalize with block test' do
+
+    base_array = [xml_unnormal_string, xml_unnormal_string, xml_unnormal_string]
+    n_array = XmlParser::Text.multi_normalize(base_array) { |str|
+      str + "a"
+    }
+    n_array.each { |str|
+      expect(str).to eq xml_normal_string + "a"
+    }
+  end
+
   it 'multi unnormalize test' do
 
     base_array = [xml_normal_string, xml_normal_string, xml_normal_string]
     n_array = XmlParser::Text.multi_unnormalize(base_array, nil, ["lt"])
     n_array.each { |str|
       expect(str).to eq xml_unnormal_filter_string
+    }
+  end
+
+  it 'multi unnormalize with block test' do
+
+    base_array = [xml_normal_string, xml_normal_string, xml_normal_string]
+    n_array = XmlParser::Text.multi_unnormalize(base_array, nil, ["lt"]) { |str|
+      str + "a"
+    }
+    n_array.each { |str|
+      expect(str).to eq xml_unnormal_filter_string + "a"
     }
   end
 end

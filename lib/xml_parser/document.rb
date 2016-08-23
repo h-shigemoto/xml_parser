@@ -10,6 +10,7 @@ module XmlParser
     # constructor.
     # @param [String] xml_str xml string.
     def initialize(xml_str)
+
       @doc = REXML::Document.new(xml_str)
     end
 
@@ -40,6 +41,18 @@ module XmlParser
           pp elm
         end
       }
+    end
+
+    # xml decl info.
+    # @return [REXML::XMLDecl] xml decl
+    def decl
+      @doc.xml_decl
+    end
+
+    # get document.
+    # @return [REXML::Document] document
+    def document
+      @doc
     end
 
     # initialize from File.

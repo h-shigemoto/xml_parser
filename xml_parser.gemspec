@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["corporation.ore@gmail.com"]
 
   spec.summary       = %q{Parse Xml Document and String.}
-  spec.description   = %q{Parse Xml Document and String.Now, Parse String method only.}
+  spec.description   = %q{Parse Xml Document and String.From String, and File.}
   spec.homepage      = "https://github.com/h-shigemoto/xml_parser"
   spec.license       = "MIT"
 

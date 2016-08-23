@@ -31,6 +31,7 @@ XML
   end
 
   it 'xpath map test' do
+
     parser = XmlParser::Document.new(xml_string)
     value = parser.xpath_map("/sample/elt/text()")
 
