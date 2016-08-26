@@ -38,6 +38,9 @@ doc = XmlParser::Document.new("<sample><elm>sample xml</elm></sample>")
 match_values = doc.xpath_map("/sample/test/@name") { |elm|
   puts elm
 }
+
+# parse xml from yaml file
+doc = XmlParser::Document.from_yml("/var/home/hoge.yml", "root_element_name", "default_attr_name")
 ```
 
 ## Development

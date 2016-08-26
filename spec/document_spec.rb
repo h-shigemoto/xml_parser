@@ -13,6 +13,21 @@ xml_string =<<XML
 XML
   }
   let(:xml_filepath) { "C:/GitHub/sample.xml" }
+  let(:yml_string) {
+yml_string =<<YML
+first:
+  second: second_value
+  name: name_value
+  age: age_value &
+  third:
+    sample: third_value > 1
+first2:
+  second: second_value2
+  name: name_value2
+YML
+  }
+  let(:yml_fileptah) { "C:/GitHub/sample.yml" }
+  let(:yml_xml_string) { "<root><first><second value='second_value'/><name value='name_value'/><age value='age_value &amp;'/><third><sample value='third_value &gt; 1'/></third></first><first2><second value='second_value2'/><name value='name_value2'/></first2></root>" }
 
   it 'initialize test' do
 
@@ -59,5 +74,20 @@ XML
     }
 
     expect(value).to eq "sample3"
+  end
+
+  it 'xml from yml test' do
+
+    File.write(yml_fileptah, yml_string)
+
+    parser = XmlParser::Document.from_yml(yml_fileptah)
+    expect(parser.document.to_s).to eq yml_xml_string
+
+    File.delete(yml_fileptah)
+  end
+
+  it 'initialize fail test' do
+
+    expect { parse = XmlParser::Document.new({string: "value"}) }.to raise_error(TypeError)
   end
 end

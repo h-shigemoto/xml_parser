@@ -1,4 +1,5 @@
 require "rexml/document"
+require "yaml"
 require "pp"
 
 # XML Parser module
@@ -8,10 +9,18 @@ module XmlParser
   class Document
 
     # constructor.
-    # @param [String] xml_str xml string.
-    def initialize(xml_str)
+    # @param [String / REXML::Document] xml xml string / REXML::Document object.
+    def initialize(xml)
 
-      @doc = REXML::Document.new(xml_str)
+      # xml string
+      if xml.is_a?(String)
+        @doc = REXML::Document.new(xml)
+      # REXML::Document object
+      elsif xml.is_a?(REXML::Document)
+        @doc = xml
+      else
+        raise TypeError.new("XmlParser::Document initialize error.")
+      end
     end
 
     # if xpath match, do map process.
@@ -29,7 +38,7 @@ module XmlParser
       }
     end
 
-    # if xpath math, do each process.
+    # if xpath match, do each process.
     # if block_given? == false, display each element by pp. Use confirm xpath.
     # @param [String] xpath xpath
     def xpath_each(xpath)
@@ -63,6 +72,64 @@ module XmlParser
       # read file contents.
       xml_str = File.read(filepath)
       XmlParser::Document.new(xml_str)
+    end
+
+    # initialize from yml file.
+    # @param [String] filepath read yml filepath. absolute.
+    # @param [String] root_name root element name
+    # @param [String] attr_name attribute name
+    # @return [XmlParser::Document] parser.
+    def self.from_yml(filepath, root_name="root", attr_name="value")
+
+      # load yml file.
+      yml = YAML.load_file(filepath)
+      # parse to xml.
+      parse_xml_from_hash(yml, root_name, attr_name)
+    end
+
+    private
+
+    # parse hash to xml.
+    # @param [Hash] hash hash
+    # @param [String] root_name root element name
+    # @param [String] attr_name attribute name
+    # @return [XmlParser::Document] document
+    def self.parse_xml_from_hash(hash, root_name, attr_name)
+
+      doc = REXML::Document.new("<#{root_name}/>")
+
+      # create under root element.
+      hash.each { |key, value|
+        elm = parse_element_from_hash(key, value, attr_name)
+        doc.root.add(elm)
+      }
+
+      XmlParser::Document.new(doc)
+    end
+
+    # parse element from yml hash.
+    # @param [String] key key, set element name.
+    # @param [String / Hash] value if value is String, set value attribute. but value is Hash, call this method.
+    # @param [String] attr_name attribute name
+    # @return [REXML::Element] element
+    def self.parse_element_from_hash(key, value, attr_name)
+
+      elm = REXML::Element.new(key)
+
+      # if value is String
+      if value.is_a?(String)
+        # set element. default attribute name = value.
+        elm.add_attribute(attr_name, value)
+      # if value is Hash
+      elsif value.is_a?(Hash)
+        # create child element.
+        value.each { |c_key, c_value|
+          c_elm = parse_element_from_hash(c_key, c_value, attr_name)
+          elm.add(c_elm)
+        }
+      end
+
+      elm
     end
   end
 end
