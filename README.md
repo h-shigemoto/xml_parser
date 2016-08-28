@@ -34,13 +34,16 @@ str = XmlParser::Text.multi_unnormalize(["a &gt; b; &lt; c", "a &gt; b; &lt; c"]
 # read xml
 doc = XmlParser::Document.new("<sample><elm>sample xml</elm></sample>")
 # you can read from file.
-# doc = XmlParser::Document.from_file("/var/sample.xml")
+doc = XmlParser::Document.from_file("/var/sample.xml")
 match_values = doc.xpath_map("/sample/test/@name") { |elm|
   puts elm
 }
 
 # parse xml from yaml file
 doc = XmlParser::Document.from_yml("/var/home/hoge.yml", "root_element_name", "default_attr_name")
+
+# parse xml from hash
+doc = XmlParser::Document.from_hash({a: "v1", b: "v2"}, "root_element_name", "default_attr_name")
 ```
 
 ## Development

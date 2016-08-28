@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'yaml'
 
 describe XmlParser::Document do
 
@@ -84,6 +85,13 @@ YML
     expect(parser.document.to_s).to eq yml_xml_string
 
     File.delete(yml_fileptah)
+  end
+
+  it 'xml from hash test' do
+
+    hash = YAML.load(yml_string)
+    parser = XmlParser::Document.from_hash(hash)
+    expect(parser.document.to_s).to eq yml_xml_string
   end
 
   it 'initialize fail test' do

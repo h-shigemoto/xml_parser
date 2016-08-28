@@ -78,7 +78,7 @@ module XmlParser
     # @param [String] filepath read yml filepath. absolute.
     # @param [String] root_name root element name
     # @param [String] attr_name attribute name
-    # @return [XmlParser::Document] parser.
+    # @return [XmlParser::Document] parser
     def self.from_yml(filepath, root_name="root", attr_name="value")
 
       # load yml file.
@@ -87,13 +87,23 @@ module XmlParser
       parse_xml_from_hash(yml, root_name, attr_name)
     end
 
+    # initialize from hash
+    # @param [Hash] hash hash
+    # @param [String] root_name root element name
+    # @param [String] attr_name attribute name
+    # @return [XmlParser::Document] parser
+    def self.from_hash(hash, root_name="root", attr_name="value")
+
+      parse_xml_from_hash(hash, root_name, attr_name)
+    end
+
     private
 
     # parse hash to xml.
     # @param [Hash] hash hash
     # @param [String] root_name root element name
     # @param [String] attr_name attribute name
-    # @return [XmlParser::Document] document
+    # @return [XmlParser::Document] parser
     def self.parse_xml_from_hash(hash, root_name, attr_name)
 
       doc = REXML::Document.new("<#{root_name}/>")
@@ -118,7 +128,7 @@ module XmlParser
 
       # if value is String
       if value.is_a?(String)
-        # set element. default attribute name = value.
+        # set attribute. default attribute name = value.
         elm.add_attribute(attr_name, value)
       # if value is Hash
       elsif value.is_a?(Hash)
