@@ -1,4 +1,5 @@
 require "rexml/document"
+require "rexml/formatters/default"
 require "yaml"
 require "pp"
 
@@ -50,6 +51,22 @@ module XmlParser
           pp elm
         end
       }
+    end
+
+    # if xpath match, to string.
+    # @param [String] xpath xpath
+    # @return [String] xpath match result.
+    def xpath_to_s(xpath)
+
+      formatter = REXML::Formatters::Default.new
+      out = StringIO.new
+
+      # search by xpath.
+      REXML::XPath.match(@doc, xpath).each { |elm|
+        formatter.write(elm, out)
+      }
+
+      out.string
     end
 
     # xml decl info.

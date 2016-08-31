@@ -13,6 +13,7 @@ xml_string =<<XML
 </sample>
 XML
   }
+  let(:xml_xpath_string) { "<elt age='15' name='sample1'/><elt age='20' name='sample2'/><elt age='25' name='sample3'>SampleText3</elt>" }
   let(:xml_filepath) { "C:/GitHub/sample.xml" }
   let(:yml_string) {
 yml_string =<<YML
@@ -75,6 +76,14 @@ YML
     }
 
     expect(value).to eq "sample3"
+  end
+
+  it 'xpath to string test' do
+
+    parser = XmlParser::Document.new(xml_string)
+    match_str = parser.xpath_to_s("/sample/elt")
+
+    expect(match_str).to eq xml_xpath_string
   end
 
   it 'xml from yml test' do
