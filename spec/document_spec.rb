@@ -88,9 +88,15 @@ YML
 
   it 'xml from yml test' do
 
+    parser = XmlParser::Document.from_yml(yml_string)
+    expect(parser.document.to_s).to eq yml_xml_string
+  end
+
+  it 'xml from yml file test' do
+
     File.write(yml_fileptah, yml_string)
 
-    parser = XmlParser::Document.from_yml(yml_fileptah)
+    parser = XmlParser::Document.from_yml_file(yml_fileptah)
     expect(parser.document.to_s).to eq yml_xml_string
 
     File.delete(yml_fileptah)

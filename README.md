@@ -39,8 +39,10 @@ match_values = doc.xpath_map("/sample/test/@name") { |elm|
   puts elm
 }
 
-# parse xml from yaml file
-doc = XmlParser::Document.from_yml("/var/home/hoge.yml", "root_element_name", "default_attr_name")
+# parse xml from yaml file.
+# initialize from yaml string, use XmlParser::Document.from_yml method.
+# only yaml of the hash form is dealing.
+doc = XmlParser::Document.from_yml_file("/var/home/hoge.yml", "root_element_name", "default_attr_name")
 
 # parse xml from hash
 doc = XmlParser::Document.from_hash({a: "v1", b: "v2"}, "root_element_name", "default_attr_name")

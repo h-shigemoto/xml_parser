@@ -91,12 +91,25 @@ module XmlParser
       XmlParser::Document.new(xml_str)
     end
 
+    # initialize from yml string.
+    # @param [String] yml_string yaml string.
+    # @param [String] root_name root element name
+    # @param [String] attr_name attribute name
+    # @return [XmlParser::Document] parser
+    def self.from_yml(yml_string, root_name="root", attr_name="value")
+
+      # load yml string.
+      yml = YAML.load(yml_string)
+      # parse to xml.
+      parse_xml_from_hash(yml, root_name, attr_name)
+    end
+
     # initialize from yml file.
     # @param [String] filepath read yml filepath. absolute.
     # @param [String] root_name root element name
     # @param [String] attr_name attribute name
     # @return [XmlParser::Document] parser
-    def self.from_yml(filepath, root_name="root", attr_name="value")
+    def self.from_yml_file(filepath, root_name="root", attr_name="value")
 
       # load yml file.
       yml = YAML.load_file(filepath)
