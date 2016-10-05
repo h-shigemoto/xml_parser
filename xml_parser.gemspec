@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Parse Xml Document and String.}
   spec.description   = %q{Parse Xml Document and String. From String, Hash and XML File, Yaml File.}
-  spec.homepage      = "https://github.com/h-shigemoto/xml_parser"
+  spec.homepage      = "https://github.com/koyupi/xml_parser"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
